@@ -1,0 +1,83 @@
+@function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
+  }
+  
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+$u1: unit($min-vw);
+$u2: unit($max-vw);
+$u3: unit($min-font-size);
+$u4: unit($max-font-size);
+
+@if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+
+    font-size: $min-font-size;
+    @media screen and (min-width: $min-vw) {
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+    }
+
+    @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+    }
+    }
+}
+}
+
+$min_width: 320px;
+$max_width: 1000px;
+$min_font: 16px;
+$max_font: 22px;
+
+html {
+    @include fluid-type($min_width, $max_width, $min_font, $max_font);
+}
+
+body {
+    max-width: 100vw;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+    font-style: normal;;
+}
+
+$mod_1: 0.9; // mobile
+$mod_2: 1.25; // desktop
+
+*{
+    margin:0;
+}
+h1 {  
+    font-size: $mod_1*$mod_1*$mod_1*$mod_1 *1rem; 
+    @include fluid-type($min_width, $max_width, $mod_1*$mod_1*$mod_1 *$min_font, $mod_2*$mod_2*$mod_2 *$min_font);
+    margin: 0;
+}
+h2 {  
+    font-size: $mod_1*$mod_1*$mod_1 *1rem; 
+    @include fluid-type($min_width, $max_width, $mod_1*$mod_1*$mod_1 *$min_font, $mod_2*$mod_2*$mod_2 *$min_font);
+    margin: 0;
+}
+h3 { 
+    font-size: $mod_1*$mod_1 *1rem;
+    @include fluid-type($min_width, $max_width, $mod_1*$mod_1 *$min_font, $mod_2*$mod_2 *$min_font);
+    margin: 0;
+}
+
+.text-Large{
+    font-size: $mod_1 *1rem;
+    @include fluid-type($min_width, $max_width, $mod_1*1 *$min_font, $mod_2*1 *$min_font);
+}
+.text-Medium{
+    font-size: $mod_1 *0.9rem;
+    @include fluid-type($min_width, $max_width, $mod_1*0.9 *$min_font, $mod_2*0.9 *$min_font);
+}
+.text-Small{
+    font-size: $mod_1 *0.75rem;
+    @include fluid-type($min_width, $max_width, $mod_1*0.75 *$min_font, $mod_2*0.75 *$min_font);
+}
+.text-XSmall{
+    font-size: $mod_1 *0.65rem;
+    @include fluid-type($min_width, $max_width, $mod_1*0.65 *$min_font, $mod_2*0.65 *$min_font);
+}
+a{
+    text-decoration:none;
+}
