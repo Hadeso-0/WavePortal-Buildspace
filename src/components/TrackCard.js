@@ -57,8 +57,8 @@ const TrackCard = ({Track,like, currentAccount}) => {
                   onClick={like}
                   colorScheme='brand'
                   aria-label='like'
-                  size='xxs'
-                  fontSize='md'
+                  size='xs'
+                  fontSize='xl'
                 >
                   <FiThumbsUp style={{pointerEvents:'none'}}/>
                 </Button>
