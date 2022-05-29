@@ -3,21 +3,15 @@
 .navigation{
     @include DropShadow_Z400;
 
-    display:flex;
     padding: 24px 24px 16px 32px;
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.64);
     backdrop-filter: blur(12px);
     position: sticky;
     top:0;
+    z-index: 20;
 
     .nav-links{
-        display:flex;
-        gap: 16px;
-        align-items: center;
-
         a{
             color:#5C5C5C;
             font-weight: 500;
@@ -26,9 +20,6 @@
         .active{
             font-weight: 600;
             color: #3764FF;
-        }
-        .walletBtn-Container{
-            margin-left: 12px;
         }
     }
 }
@@ -79,5 +70,6 @@
     gap: 16px;
     align-items: center;
     padding: 24px 0;
-    box-shadow: 0 -16px 0 0 #EDEDF2;
+    padding-bottom: 32px;
+    box-shadow: 0 -44px 0 0 #EDEDF2;
 }

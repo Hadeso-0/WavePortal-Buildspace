@@ -6,8 +6,8 @@ import { toast } from 'react-hot-toast';
 const WalletConnect = ({ currentAccount, setCurrentAccount, isMetaMask}) => {
 
   const { ethereum } = window;
-  const provider = new ethers.providers.Web3Provider(ethereum)
-  console.log(provider)
+  // const provider = new ethers.providers.Web3Provider(ethereum)
+  // // console.log(provider)
 
   const connectWallet = async () => {
     try {

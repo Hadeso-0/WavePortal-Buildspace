@@ -5,3 +5,18 @@
   display: flex;
   flex-direction: column;
 }
+#root{
+  height: 100vh;
+  overflow-y: auto;
+}
+#root::-webkit-scrollbar {
+    width: 4px;
+}
+#root::-webkit-scrollbar-track {
+    background: #fbfcfd;
+    width: 4px;
+}
+#root::-webkit-scrollbar-thumb {
+    background: #3764FF;
+    border-radius: 2px;
+  }

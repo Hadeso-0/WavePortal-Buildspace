@@ -16,8 +16,8 @@ const theme = extendTheme({
       },
   },
   fonts: {
-    body: "Poppins",
-    heading: "Poppins",
+    body: "'Poppins', 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif",
+    heading: "'Poppins', 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif",
     mono: "Source Code Pro, Courier Prime, monospace",
   },
 //   components:{

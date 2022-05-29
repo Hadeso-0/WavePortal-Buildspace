@@ -50,18 +50,6 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
         });
 
         setAllTracks(recordCleaned);
-
-        TrackPortalContract.on("NewTrack", (from, trackId, timestamp, trackURL) => {
-          console.log("NewTrack", from, trackId, timestamp, trackURL);
-
-          setAllTracks(prevState => [...prevState, {
-            address: from,
-            trackId: trackId,
-            timestamp: new Date(timestamp * 1000),
-            trackURL: trackURL,
-            likes: 0
-          }]);
-        });
       } else {
         console.log("Ethereum object doesn't exist!")
       }
@@ -76,15 +64,33 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
         
         const likeTrackId = e.target.value
         const likeTrackTxn = await TrackPortalContract.LikeTrack(likeTrackId)
-
         await likeTrackTxn.wait()
-        console.log(`You liked Track: ${likeTrackId}`)
+        // e.target.parentElement.childNodes[1].innerText++
+        toast(`You liked track #${likeTrackId}`,
+        {
+          icon: '👍',
+          style: {
+            borderRadius: '100px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
 
       } else {
         console.log("Ethereum object doesn't exist!")
       }
     } catch (error) {
       console.log(error);
+      toast.error(`User denied the Transaction`,
+        {
+          style: {
+            borderRadius: '100px',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+      );
     }
   }
   const PushTrack = async (e) => {
@@ -95,9 +101,22 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
         {
           const PushTxn = await TrackPortalContract.PushTrack(inpUrl);
           console.log("Mining...", PushTxn.hash);
-  
+          
           await PushTxn.wait();
           console.log("Mined -- ", PushTxn.hash);
+          setInpUrl("")
+          // getAllTracks()
+          // onNewTrack()
+          setTotalTracks(totalTracks => totalTracks+1)
+          toast.success('Track waved successfully',
+          {
+            style: {
+              borderRadius: '100px',
+              background: '#333',
+              color: '#fff',
+            },
+          }
+        );
         }
         else{
           toast.error('Please enter a valid URL',
@@ -109,21 +128,44 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
             },
           }
         );
-        }
-      } else {
-        console.log("Ethereum object doesn't exist!");
       }
-    } catch (error) {
-      console.log(error)
+    } else {
+      console.log("Ethereum object doesn't exist!");
+    }
+  } catch (error) {
+    // console.log(error)
+    toast.error('Transaction failed',
+    {
+      style: {
+        borderRadius: '100px',
+        background: '#333',
+        color: '#fff',
+      },
+    }
+  );
+
     }
   }
+
+  const onNewTrack = async (from, trackId, timestamp, trackURL) => {
+      console.log("NewTrack", from, trackId, timestamp, trackURL);
+
+      setAllTracks(prevState => [...prevState, {
+        address: from,
+        trackId: trackId,
+        timestamp: new Date(timestamp * 1000),
+        trackURL: trackURL,
+        likes: 0
+        }]);
+  }
+
   const getTotalTracks = async () => {
     try {
       if (ethereum) {
 
         let count = await TrackPortalContract.getTotalTracks();
         console.log("Retrieved total Track count...", count.toNumber());
-      
+        setTotalTracks(count.toNumber());
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -136,7 +178,7 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
     checkIfWalletIsConnected();
     getTotalTracks();
     getAllTracks();
-  }, [currentAccount])
+  }, [currentAccount, totalTracks])
 
   return (
     <div className="mainContainer">
@@ -159,13 +201,20 @@ const Home = ({ checkIfWalletIsConnected ,TrackPortalContract, currentAccount}) 
         </form>
 
         {/* {console.log(allTracks)} */}
-        <HStack spacing='8px' sx={{width: '100%'}} zIndex='2'>
-          <Divider color='gray.900'/>
-          <Heading as='h4' size='lg' color='gray.800'>
-            WaveLog
-          </Heading>
-          <Divider color='gray.900'/>
-        </HStack>
+        <VStack spacing='4px' zIndex='2' sx={{width: '100%'}}>
+          <HStack spacing='8px' sx={{width: '100%'}}>
+            <Divider color='gray.900'/>
+            <Heading as='h4' size='lg' color='gray.800'>
+              WaveLog
+            </Heading>
+            <Divider color='gray.900'/>
+          </HStack>
+          { 
+            currentAccount
+            ? <Text fontSize='md'>We have a total of <b>{totalTracks}</b> Tracks</Text>
+            : ""
+          }
+          </VStack>
       </div>
       <div className='WaveLog-Container'>
         {
