@@ -1,5 +1,5 @@
-# Web3-First-Project
-Building a simple Dapp w/ Solidity 
+# Wave-Portal
+Building a simple Dapp w/ Solidity. The app let's users connect their wallet and cannect with me. They can wave their favourite track's Spotify URL or listen to the tracks waved by other users. 
 
 
 
